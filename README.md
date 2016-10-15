@@ -16,7 +16,7 @@ This project is a great improvement of 'Online-Exam-System-' created by Sunny Pr
 
 1. Create a new database in MySQL.
 2. Run the SQL query in "quizzer.sql".
-3. Open the file "dbConnection.php" and change the Database name, username, password and database name.
+3. Open the file "dbConnection.php" and change the Server name, Username, Password and Database name.
 3. Visit the home page in browser. Use the "Admin Login" link to login to Admin Panel. Default user - 'sonudoo' pass - '1234567890'
 
 #Bugs:
