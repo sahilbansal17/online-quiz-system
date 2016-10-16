@@ -223,7 +223,6 @@ if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_SESSION['6e447159425
     $eid   = @$_GET['eid'];
     $sn    = @$_GET['n'];
     $total = @$_GET['t'];
-    $ans   = $_SESSION['answerid'][$sn];
     $qid   = @$_GET['qid'];
     $q = mysqli_query($con, "SELECT * FROM history WHERE username='$username' AND eid='$_GET[eid]' ") or die('Error197');
     if (mysqli_num_rows($q) > 0) {
@@ -245,7 +244,10 @@ if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_SESSION['6e447159425
             while ($row = mysqli_fetch_array($q)) {
                 $ansid = $row['ansid'];
             }
-            $q = mysqli_query($con, "DELETE FROM user_answer WHERE qid='$qid' AND username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die("Errorxdffvd");
+            $q = mysqli_query($con, "SELECT * FROM user_answer WHERE eid='$_GET[eid]' AND username='$_SESSION[username]' AND qid='$qid' ") or die('Error115');
+            $row = mysqli_fetch_array($q);
+            $ans = $row['ans'];
+            $q = mysqli_query($con, "DELETE FROM user_answer WHERE qid='$qid' AND username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die("Error2222");
             if ($ans == $ansid) {
                 $q = mysqli_query($con, "SELECT * FROM quiz WHERE eid='$eid' ") or die('Error129');
                 while ($row = mysqli_fetch_array($q)) {
