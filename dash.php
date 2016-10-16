@@ -33,6 +33,7 @@ $(function () {
 </head>
 
 <body  style="background:#eee;">
+<body  style="background:#eee;">
 <div class="header">
 <div class="row">
 <div class="col-lg-6">
@@ -40,14 +41,15 @@ $(function () {
 <?php
 include_once 'dbConnection.php';
 session_start();
-if (!(isset($_SESSION['username']))   || ($_SESSION['key']) != '54585c506829293a2d4c3b68543b316e2e7a2d277858545a36362e5f39') {
+if (!(isset($_SESSION['username']))  || ($_SESSION['key']) != '54585c506829293a2d4c3b68543b316e2e7a2d277858545a36362e5f39') {
+    session_destroy();
     header("location:index.php");
 } else {
     $name     = $_SESSION['name'];
     $username = $_SESSION['username'];
     
     include_once 'dbConnection.php';
-    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1">' . $name . '</span>&nbsp;|&nbsp;<a href="logout.php?q=account.php" class="log"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
+    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1" style="color:lightyellow">' . $name . '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="logout.php?q=account.php" style="color:lightyellow"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
 }
 ?>
 
@@ -76,7 +78,7 @@ if (@$_GET['q'] == 1)
     <li <?php
 if (@$_GET['q'] == 2)
     echo 'class="active"';
-?>><a href="dash.php?q=2">Ranking</a></li>
+?>><a href="dash.php?q=2">Leaderboard</a></li>
     <li <?php
 if (@$_GET['q'] == 3)
     echo 'class="active"';
@@ -121,26 +123,80 @@ if (@$_GET['q'] == 0) {
     }
 }
 if (@$_GET['q'] == 2) {
-    $q = mysqli_query($con, "SELECT * FROM rank  ORDER BY score DESC ") or die('Error223');
+    if(isset($_GET['show'])){
+        $show = $_GET['show'];
+        $showfrom = (($show-1)*10) + 1;
+        $showtill = $showfrom + 9;
+    }
+    else{
+        $show = 1;
+        $showfrom = 1;
+        $showtill = 10;
+    }
+    $q = mysqli_query($con, "SELECT * FROM rank") or die('Error223');
     echo '<div class="panel title">
 <table class="table table-striped title1" >
-<tr style="color:black"><td style="vertical-align:middle"><b>Rank</b></td><td style="vertical-align:middle"><b>Name</b></td><td style="vertical-align:middle"><b>Roll no</b></td><td style="vertical-align:middle"><b>Branch</b></td><td style="vertical-align:middle"><b>Gender</b></td><td style="vertical-align:middle"><b>Username</b></td><td style="vertical-align:middle"><b>Score</b></td></tr>';
-    $c = 0;
-    while ($row = mysqli_fetch_array($q)) {
-        $e = $row['username'];
-        $s = $row['score'];
-        $q12 = mysqli_query($con, "SELECT * FROM user WHERE username='$e' ") or die('Error231');
-        while ($row = mysqli_fetch_array($q12)) {
-            $name     = $row['name'];
-            $gender   = $row['gender'];
-            $username = $row['username'];
-            $rollno   = $row['rollno'];
-            $branch   = $row['branch'];
+<tr><td style="vertical-align:middle"><b>Rank</b></td><td style="vertical-align:middle"><b>Name</b></td><td style="vertical-align:middle"><b>Branch</b></td><td style="vertical-align:middle"><b>Username</b></td><td style="vertical-align:middle"><b>Roll number</b></td><td style="vertical-align:middle"><b>Gender</b></td><td style="vertical-align:middle"><b>Score</b></td></tr>';
+    $c = $showfrom-1;
+    $total = mysqli_num_rows($q);
+    if($total >= $showfrom){
+        $q = mysqli_query($con, "SELECT * FROM rank ORDER BY score DESC, time ASC LIMIT ".($showfrom-1).",10") or die('Error223');
+        while ($row = mysqli_fetch_array($q)) {
+            $e = $row['username'];
+            $s = $row['score'];
+            $q12 = mysqli_query($con, "SELECT * FROM user WHERE username='$e' ") or die('Error231');
+            while ($row = mysqli_fetch_array($q12)) {
+                $name     = $row['name'];
+                $branch   = $row['branch'];
+                $username = $row['username'];
+                $rollno     = $row['rollno'];
+                $gender   = $row['gender'];
+            }
+            $c++;
+            echo '<tr><td style="color:#99cc32"><b>' . $c . '</b></td><td style="vertical-align:middle">' . $name . '</td><td style="vertical-align:middle">' . $branch . '</td><td style="vertical-align:middle">' . $username . '</td><td style="vertical-align:middle">' . $rollno . '</td><td style="vertical-align:middle">' . $gender . '</td><td style="vertical-align:middle">' . $s . '</td><td style="vertical-align:middle">';
         }
-        $c++;
-        echo '<tr><td style="color:#99cc32"><b>' . $c . '</b></td><td style="vertical-align:middle">' . $name . '</td><td style="vertical-align:middle">' . $rollno . '</td><td style="vertical-align:middle">' . $branch . '</td><td style="vertical-align:middle">' . $gender . '</td><td style="vertical-align:middle">' . $username . '</td><td style="vertical-align:middle">' . $s . '</td><td style="vertical-align:middle"></tr>';
+    }
+    else{
+        echo "Unknown Error Occured";
     }
     echo '</table></div>';
+    echo '<div class="panel title"><table class="table table-striped title1" ><tr>';
+    $total = round($total/10) + 1;
+    if(isset($_GET['show'])){
+        $show = $_GET['show'];
+    }
+    else{
+        $show = 1;
+    }
+    if($show == 1 && $total==1){
+    }
+    else if($show == 1 && $total!=1){
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
+    }
+    else if($show != 1 && $show==$total){
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
+
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+    }
+    else{
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="dash.php?q=2&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
+    }
+    echo '</tr></table></div>';
 }
 if (@$_GET['q'] == 1) {
     
