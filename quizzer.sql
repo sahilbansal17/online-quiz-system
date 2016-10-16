@@ -92,7 +92,8 @@ CREATE TABLE IF NOT EXISTS `history` (
   `wrong` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `timestamp` bigint(50) NOT NULL,
-  `status` varchar(40) NOT NULL
+  `status` varchar(40) NOT NULL,
+  `score_updated` varchar(10) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
