@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Quiz || Indian Institute of Chemical Engineers </title>
+<title>Quiz || Quizzer </title>
 <link  rel="stylesheet" href="css/bootstrap.min.css"/>
  <link  rel="stylesheet" href="css/bootstrap-theme.min.css"/>    
  <link rel="stylesheet" href="css/main.css">
@@ -29,7 +29,7 @@ include_once 'dbConnection.php';
 <div class="header">
 <div class="row">
 <div class="col-lg-6">
-<span class="logo">Indian Institute of Chemical Engineers</span></div>
+<span class="logo">Quizzer</span></div>
 <div class="col-md-4 col-md-offset-2">
  <?php
 include_once 'dbConnection.php';
@@ -41,7 +41,7 @@ if (!(isset($_SESSION['username']))) {
     $username = $_SESSION['username'];
     
     include_once 'dbConnection.php';
-    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1">' . $name . '</span>&nbsp;|&nbsp;<a href="logout.php?q=account.php" class="log"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
+    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1" style="color:lightyellow">' . $username . '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="logout.php?q=account.php" style="color:lightyellow"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
 }
 ?>
 </div>
@@ -147,24 +147,27 @@ if (@$_GET['q'] == 1) {
 if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_SESSION['6e447159425d2d']) && $_SESSION['6e447159425d2d'] == "6e447159425d2d" && $_GET['endquiz'] == 'end') {
     unset($_SESSION['6e447159425d2d']);
     $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
-    $q = mysqli_query($con, "SELECT score FROM history WHERE eid='$_GET[eid]' AND username='$username'") or die('Error156');
-    while ($row = mysqli_fetch_array($q)) {
-        $s = $row['score'];
-    }
-    
-    $q = mysqli_query($con, "SELECT * FROM rank WHERE username='$username'") or die('Error161');
-    $rowcount = mysqli_num_rows($q);
-    if ($rowcount == 0) {
-        $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$username','$s',NOW())") or die('Error165');
-    } else {
-        while ($row = mysqli_fetch_array($q)) {
-            $sun = $row['score'];
-        }
-        
-        $sun = $s + $sun;
-        $q = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
-    }
-    header('location:account.php?q=result&eid=' . $_GET[eid]);
+        $q = mysqli_query($con, "SELECT * FROM history WHERE eid='$_GET[eid]' AND username='$_SESSION[username]'") or die('Error156');
+                while ($row = mysqli_fetch_array($q)) {
+                    $s = $row['score'];
+                    $scorestatus = $row['score_updated'];
+                }
+                 if($scorestatus=="false"){
+                    $q = mysqli_query($con, "UPDATE history SET score_updated='true' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+                    $q = mysqli_query($con, "SELECT * FROM rank WHERE username='$username'") or die('Error161');
+                    $rowcount = mysqli_num_rows($q);
+                    if ($rowcount == 0) {
+                        $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$username','$s',NOW())") or die('Error165');
+                    } else {
+                        while ($row = mysqli_fetch_array($q)) {
+                            $sun = $row['score'];
+                        }
+                        
+                        $sun = $s + $sun;
+                        $q = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
+                    }
+                }
+            header('location:account.php?q=result&eid=' . $_GET[eid]);
 }
 
 if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_GET['start']) && $_GET['start'] == "start" && (!isset($_SESSION['6e447159425d2d']))) {
@@ -187,12 +190,33 @@ if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_GET['start']) && $_G
             header('location:account.php?q=quiz&step=2&eid=' . $_GET[eid] . '&n=' . $_GET[n] . '&t=' . $_GET[t]);
             
         } else {
+                $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+        $q = mysqli_query($con, "SELECT * FROM history WHERE eid='$_GET[eid]' AND username='$_SESSION[username]'") or die('Error156');
+                while ($row = mysqli_fetch_array($q)) {
+                    $s = $row['score'];
+                    $scorestatus = $row['score_updated'];
+                }
+                 if($scorestatus=="false"){
+                    $q = mysqli_query($con, "UPDATE history SET score_updated='true' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+                    $q = mysqli_query($con, "SELECT * FROM rank WHERE username='$username'") or die('Error161');
+                    $rowcount = mysqli_num_rows($q);
+                    if ($rowcount == 0) {
+                        $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$username','$s',NOW())") or die('Error165');
+                    } else {
+                        while ($row = mysqli_fetch_array($q)) {
+                            $sun = $row['score'];
+                        }
+                        
+                        $sun = $s + $sun;
+                        $q = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
+                    }
+                }
             header('location:account.php?q=result&eid=' . $_GET[eid]);
         }
         
     } else {
         $time = time();
-        $q = mysqli_query($con, "INSERT INTO history VALUES(NULL,'$username','$_GET[eid]' ,'0','0','0','0',NOW(),'$time','ongoing')") or die('Error137');
+        $q = mysqli_query($con, "INSERT INTO history VALUES(NULL,'$username','$_GET[eid]' ,'0','0','0','0',NOW(),'$time','ongoing','false')") or die('Error137');
         $_SESSION['6e447159425d2d'] = "6e447159425d2d";
         header('location:account.php?q=quiz&step=2&eid=' . $_GET[eid] . '&n=' . $_GET[n] . '&t=' . $_GET[t]);
     }
@@ -327,12 +351,52 @@ var countdownTimer = setInterval(\'secondPassed()\', 1000);
         } else {
             unset($_SESSION['6e447159425d2d']);
             $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+        $q = mysqli_query($con, "SELECT * FROM history WHERE eid='$_GET[eid]' AND username='$_SESSION[username]'") or die('Error156');
+                while ($row = mysqli_fetch_array($q)) {
+                    $s = $row['score'];
+                    $scorestatus = $row['score_updated'];
+                }
+                 if($scorestatus=="false"){
+                    $q = mysqli_query($con, "UPDATE history SET score_updated='true' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+                    $q = mysqli_query($con, "SELECT * FROM rank WHERE username='$username'") or die('Error161');
+                    $rowcount = mysqli_num_rows($q);
+                    if ($rowcount == 0) {
+                        $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$username','$s',NOW())") or die('Error165');
+                    } else {
+                        while ($row = mysqli_fetch_array($q)) {
+                            $sun = $row['score'];
+                        }
+                        
+                        $sun = $s + $sun;
+                        $q = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
+                    }
+                }
             header('location:account.php?q=result&eid=' . $_GET[eid]);
         }
     } else {
         unset($_SESSION['6e447159425d2d']);
         $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
-        header('location:account.php?q=result&eid=' . $_GET[eid]);
+        $q = mysqli_query($con, "SELECT * FROM history WHERE eid='$_GET[eid]' AND username='$_SESSION[username]'") or die('Error156');
+                while ($row = mysqli_fetch_array($q)) {
+                    $s = $row['score'];
+                    $scorestatus = $row['score_updated'];
+                }
+                if($scorestatus=="false"){
+                    $q = mysqli_query($con, "UPDATE history SET score_updated='true' WHERE username='$_SESSION[username]' AND eid='$_GET[eid]' ") or die('Error197');
+                    $q = mysqli_query($con, "SELECT * FROM rank WHERE username='$username'") or die('Error161');
+                    $rowcount = mysqli_num_rows($q);
+                    if ($rowcount == 0) {
+                        $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$username','$s',NOW())") or die('Error165');
+                    } else {
+                        while ($row = mysqli_fetch_array($q)) {
+                            $sun = $row['score'];
+                        }
+                        
+                        $sun = $s + $sun;
+                        $q = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
+                    }
+                }
+            header('location:account.php?q=result&eid=' . $_GET[eid]);
     }
 }
 if (@$_GET['q'] == 'result' && @$_GET['eid']) {
@@ -432,24 +496,78 @@ if (@$_GET['q'] == 2) {
     echo '</table></div>';
 }
 if (@$_GET['q'] == 3) {
-    $q = mysqli_query($con, "SELECT * FROM rank  ORDER BY score DESC ") or die('Error223');
+    if(isset($_GET['show'])){
+        $show = $_GET['show'];
+        $showfrom = (($show-1)*10) + 1;
+        $showtill = $showfrom + 9;
+    }
+    else{
+        $show = 1;
+        $showfrom = 1;
+        $showtill = 10;
+    }
+    $q = mysqli_query($con, "SELECT * FROM rank") or die('Error223');
     echo '<div class="panel title">
 <table class="table table-striped title1" >
 <tr><td style="vertical-align:middle"><b>Rank</b></td><td style="vertical-align:middle"><b>Name</b></td><td style="vertical-align:middle"><b>Branch</b></td><td style="vertical-align:middle"><b>Username</b></td><td style="vertical-align:middle"><b>Score</b></td></tr>';
-    $c = 0;
-    while ($row = mysqli_fetch_array($q)) {
-        $e = $row['username'];
-        $s = $row['score'];
-        $q12 = mysqli_query($con, "SELECT * FROM user WHERE username='$e' ") or die('Error231');
-        while ($row = mysqli_fetch_array($q12)) {
-            $name     = $row['name'];
-            $branch   = $row['branch'];
-            $username = $row['username'];
+    $c = $showfrom-1;
+    $total = mysqli_num_rows($q);
+    if($total >= $showfrom){
+        $q = mysqli_query($con, "SELECT * FROM rank ORDER BY score DESC, time ASC LIMIT ".($showfrom-1).",10") or die('Error223');
+        while ($row = mysqli_fetch_array($q)) {
+            $e = $row['username'];
+            $s = $row['score'];
+            $q12 = mysqli_query($con, "SELECT * FROM user WHERE username='$e' ") or die('Error231');
+            while ($row = mysqli_fetch_array($q12)) {
+                $name     = $row['name'];
+                $branch   = $row['branch'];
+                $username = $row['username'];
+            }
+            $c++;
+            echo '<tr><td style="color:#99cc32"><b>' . $c . '</b></td><td style="vertical-align:middle">' . $name . '</td><td style="vertical-align:middle">' . $branch . '</td><td style="vertical-align:middle">' . $username . '</td><td style="vertical-align:middle">' . $s . '</td><td style="vertical-align:middle">';
         }
-        $c++;
-        echo '<tr><td style="color:#99cc32"><b>' . $c . '</b></td><td style="vertical-align:middle">' . $name . '</td><td style="vertical-align:middle">' . $branch . '</td><td style="vertical-align:middle">' . $username . '</td><td style="vertical-align:middle">' . $s . '</td><td style="vertical-align:middle">';
+    }
+    else{
+        echo "Unknown Error Occured";
     }
     echo '</table></div>';
+    echo '<div class="panel title"><table class="table table-striped title1" ><tr>';
+    $total = round($total/10) + 1;
+    if(isset($_GET['show'])){
+        $show = $_GET['show'];
+    }
+    else{
+        $show = 1;
+    }
+    if($show == 1 && $total==1){
+    }
+    else if($show == 1 && $total!=1){
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
+    }
+    else if($show != 1 && $show==$total){
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
+
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+    }
+    else{
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
+        $i = 1;
+        while($i<=$total){
+            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
+            $i++;
+        }
+        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
+    }
+    echo '</tr></table></div>';
 }
 ?>
 </div></div></div></div>
