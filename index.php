@@ -1,3 +1,13 @@
+<?php
+session_start();
+if(isset($_SESSION['username']) && (!isset($_SESSION['key']))){
+   header('location:account.php?q=1');
+}
+else if(isset($_SESSION['username']) && isset($_SESSION['key']) && $_SESSION['key'] == '54585c506829293a2d4c3b68543b316e2e7a2d277858545a36362e5f39'){
+   header('location:dash.php?q=1');
+}
+else{}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
