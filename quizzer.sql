@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `quiz` (
 -- Dumping data for table `quiz`
 --
 
-INSERT INTO `quiz` (`id`, `eid`, `title`, `correct`, `wrong`, `total`, `time`, `date`, `status`) VALUES
+INSERT INTO `quiz` (`id`, `eid`, `title`, `correct`, `wrong`, `total`, `time`, `date`, `status`,`score_updated`) VALUES
 (1, '5802790f793b1', 'Sample Quiz', 4, 1, 3, 3, '2016-10-15 19:09:11', 'enabled');
 
 -- --------------------------------------------------------
