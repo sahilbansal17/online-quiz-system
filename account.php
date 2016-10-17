@@ -528,7 +528,6 @@ if (@$_GET['q'] == 3) {
         }
     }
     else{
-        echo "Unknown Error Occured";
     }
     echo '</table></div>';
     echo '<div class="panel title"><table class="table table-striped title1" ><tr>';
