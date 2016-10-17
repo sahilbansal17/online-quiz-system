@@ -14,6 +14,24 @@ if (isset($_SESSION['key'])) {
     if (@$_GET['deidquiz'] && $_SESSION['key'] == '54585c506829293a2d4c3b68543b316e2e7a2d277858545a36362e5f39') {
         $eid = @$_GET['deidquiz'];
         $r1 = mysqli_query($con, "UPDATE quiz SET status='disabled' WHERE eid='$eid' ") or die('Error');
+        $q = mysqli_query($con, "SELECT * FROM history WHERE eid='$eid' AND status='ongoing' AND score_updated='false'");
+        while($row = mysqli_fetch_array($q)){
+            $user = $row['username'];
+            $s = $row['score'];
+            $r1 = mysqli_query($con, "UPDATE history SET status='finished',score_updated='true' WHERE eid='$eid' AND username='$user' ") or die('Error');
+            $q1 = mysqli_query($con, "SELECT * FROM rank WHERE username='$user'") or die('Error161');
+            $rowcount = mysqli_num_rows($q1);
+            if ($rowcount == 0) {
+                $q2 = mysqli_query($con, "INSERT INTO rank VALUES(NULL,'$user','$s',NOW())") or die('Error165');
+            } else {
+                while ($row = mysqli_fetch_array($q1)) {
+                    $sun = $row['score'];
+                }
+                        
+                $sun = $s + $sun;
+                $q3 = mysqli_query($con, "UPDATE `rank` SET `score`=$sun ,time=NOW() WHERE username= '$username'") or die('Error174');
+            }
+        }
         header("location:dash.php?q=0");
     }
 }
