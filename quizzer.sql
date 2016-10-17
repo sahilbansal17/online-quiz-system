@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `history` (
 --
 
 INSERT INTO `history` (`id`, `username`, `eid`, `score`, `level`, `correct`, `wrong`, `date`, `timestamp`, `status`) VALUES
-(1, 'sonudoo', '5802790f793b1', 12, 3, 3, 0, '2016-10-15 19:11:55', 1476558671, 'finished');
+(1, 'sonudoo', '5802790f793b1', 12, 3, 3, 0, '2016-10-15 19:11:55', 1476558671, 'finished','false');
 
 -- --------------------------------------------------------
 
