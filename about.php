@@ -103,40 +103,13 @@ fclose($file);
 </div>
 <div class="row footer">
 <div class="col-md-2 box">
-<a href="#" data-toggle="modal" data-target="#login" style="color:lightyellow">Admin Login</a></div>
+</div>
 <div class="col-md-6 box">
 <span href="#" data-target="#login" style="color:lightyellow">Organized by Quizzer, Institute's Name, Place<br><br></span></div>
 <div class="col-md-2 box">
 <a href="feedback.php" style="color:lightyellow;text-decoration:underline" onmouseover="this.style('color:yellow')">Feedback</a></div>
 <div class="col-md-2 box">
 <span href="about.php" s style="color:lightyellow;text-decoration:underline" onmouseover="this.style('color:yellow')">About Quizzer</span></div>
-</div>
-   <div class="modal fade" id="login">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title"><span style="color:darkblue;font-size:12px;font-weight:bold">Login to Server</span></h4>
-      </div>
-      <div class="modal-body title1">
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6">
-<form role="form" method="post" action="admin.php?q=index.php">
-<div class="form-group">
-<input type="text" name="uname" maxlength="20"  placeholder="Admin user id" class="form-control"/> 
-</div>
-<div class="form-group">
-<input type="password" name="password" maxlength="15" placeholder="Password" class="form-control"/>
-</div>
-<div class="form-group" align="center">
-<input type="submit" name="login" value="Login" class="btn btn-primary" />
-</div>
-</form>
-</div><div class="col-md-3"></div></div>
-      </div>
-    </div>
-  </div>
 </div>
 </body>
 </html>
