@@ -169,7 +169,7 @@ if (@$_GET['q7']) {
   <label class="col-md-12 control-label" for="name"></label>  
   <div class="col-md-12">
   <input id="name" name="name" placeholder="Enter your name" class="form-control input-md" type="text" value="<?php
-echo $_GET['name'];
+// echo $_GET['name'];
 ?>">
     
   </div>
@@ -178,7 +178,7 @@ echo $_GET['name'];
   <label class="col-md-12 control-label" for="rollno"></label>  
   <div class="col-md-12">
   <input id="rollno" name="rollno" placeholder="Enter your Roll no (Ex. BE/10XXX/YY)" class="form-control input-md" type="text" value="<?php
-echo $_GET['rollno'];
+// echo $_GET['rollno'];
 ?>">
     
   </div>
@@ -188,16 +188,16 @@ echo $_GET['rollno'];
   <div class="col-md-12">
     <select id="gender" name="gender" placeholder="Select your gender" class="form-control input-md" >
    <option value="" <?php
-if (!isset($_GET['gender']))
+// if (!isset($_GET['gender']))
     echo "selected";
 ?>>Select Gender</option>
   <option value="M" <?php
-if ($_GET['gender'] == "M")
-    echo "selected";
+// if ($_GET['gender'] == "M")
+    // echo "selected";
 ?>>Male</option>
   <option value="F" <?php
-if ($_GET['gender'] == "F")
-    echo "selected";
+// if ($_GET['gender'] == "F")
+    // echo "selected";
 ?>>Female</option> </select>
   </div>
 </div>
@@ -210,40 +210,40 @@ if (!isset($_GET['branch']))
     echo "selected";
 ?>>Select Branch</option>
   <option value="CSE" <?php
-if ($_GET['branch'] == "CSE")
-    echo "selected";
+// if ($_GET['branch'] == "CSE")
+    // echo "selected";
 ?>>Computer Science and Engineering</option>
   <option value="ECE" <?php
-if ($_GET['branch'] == "ECE")
-    echo "selected";
+// if ($_GET['branch'] == "ECE")
+    // echo "selected";
 ?>>Electronics and Communication Engineering</option>
   <option value="EEE" <?php
-if ($_GET['branch'] == "EEE")
-    echo "selected";
+// if ($_GET['branch'] == "EEE")
+    // echo "selected";
 ?>>Electrical and Electronics Engineering</option>
   <option value="IT" <?php
-if ($_GET['branch'] == "IT")
-    echo "selected";
+// if ($_GET['branch'] == "IT")
+    // echo "selected";
 ?>>Information Technology</option>
   <option value="CHEM" <?php
-if ($_GET['branch'] == "CHEM")
-    echo "selected";
+// if ($_GET['branch'] == "CHEM")
+//     echo "selected";
 ?>>Chemical Engineering</option>
   <option value="CIVIL" <?php
-if ($_GET['branch'] == "CIVIL")
-    echo "selected";
+// if ($_GET['branch'] == "CIVIL")
+//     echo "selected";
 ?>>Civil Engineering</option> 
   <option value="MECH" <?php
-if ($_GET['branch'] == "MECH")
-    echo "selected";
+// if ($_GET['branch'] == "MECH")
+//     echo "selected";
 ?>>Mechanical Engineering</option> 
   <option value="BIOTECH" <?php
-if ($_GET['branch'] == "BIOTECH")
-    echo "selected";
+// if ($_GET['branch'] == "BIOTECH")
+//     echo "selected";
 ?>>Biotechnology</option> 
   <option value="IMSC" <?php
-if ($_GET['branch'] == "IMSC")
-    echo "selected";
+// if ($_GET['branch'] == "IMSC")
+//     echo "selected";
 ?>>Integrated MSc</option> </select>
 
   </div>
@@ -252,7 +252,7 @@ if ($_GET['branch'] == "IMSC")
   <label class="col-md-12 control-label title1" for="username"></label>
   <div class="col-md-12">
     <input id="username" name="username" placeholder="Choose a username" class="form-control input-md" type="username" value="<?php
-echo $_GET['username'];
+// echo $_GET['username'];
 ?>" style="<?php
 if (isset($_GET['q7']))
     echo "border-color:red";
@@ -300,7 +300,7 @@ echo $_GET['phno'];
 <div class="col-md-2 box">
 <a href="#" data-toggle="modal" data-target="#login" style="color:lightyellow">Admin Login</a></div>
 <div class="col-md-6 box">
-<span href="#" data-target="#login" style="color:lightyellow">Organized by Quizzer, Institute's Name, Place<br><br></span></div>
+<span href="#" data-target="#login" style="color:lightyellow">Indian Institute of Technology Jammu<br><br></span></div>
 <div class="col-md-2 box">
 <a href="feedback.php" style="color:lightyellow;" onmouseover="this.style('color:yellow')" target="new">Feedback</a></div>
 <div class="col-md-2 box">
