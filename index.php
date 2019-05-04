@@ -41,23 +41,166 @@ function validateForm() {
     document.getElementById("errormsg").innerHTML="Please select your branch";
     return false;
   }
-  var rn = (document.forms["form"]["rollno"].value).split("/");
-  if (rn.length != 3) {
-    document.getElementById("errormsg").innerHTML="Incorrect Rollno. Please enter in the format (BE/10XXX/YY)";
+  var rn = (document.forms["form"]["rollno"].value);
+  if (rn.length != 11) {
+    document.getElementById("errormsg").innerHTML="Length of roll number is incorrect.";
     return false;
   }
-  if((rn[0].length != 2 && rn[0].length != 3) || (rn[0].match(/[A-Z]/g)).length != rn[0].length){
-    document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[0]+". Make sure all letters are capital (Ex. 'BE' in BE/10XXX/YY)";
+  year = rn.substring(0, 4);
+  branch = rn.substring(4, 7);
+  number = rn.substring(7, 11);
+
+  if (year != "2016" && year != "2017" && year != "2018") {
+    document.getElementById("errormsg").innerHTML="Incorrect year of registration.";
     return false;
   }
-  if(rn[1].length != 5 || (rn[1].match(/[0-9]/g)).length != rn[1].length){
-    document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[1];
-    return false;
+  if (branch != "UCS" && branch != "UEE" && branch != "UME" && branch != "UCE" && branch != "UCH") {
+    document.getElementById("errormsg").innerHTML="Incorrect branch.";
+    return false; 
   }
-  if(rn[2] != "12" && rn[2] != "13" && rn[2] != "14" && rn[2] != "15" && rn[2] != "16"){
-    document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[2];
-    return false;
+  number = parseInt(number, 10);
+  if (year == "2016") {
+    if (branch == "UCS") {
+      if (number >= 1 && number <= 30) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UEE") {
+      if (number > 30 && number <= 60) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UME") {
+      if (number >= 61 && number <= 90) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else {
+      document.getElementById("errormsg").innerHTML="Incorrect branch.";
+      return false; 
+    }
   }
+  else if (year == "2017") {
+    if (branch == "UCS") {
+      if (number >= 1 && number <= 30) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UEE") {
+      if (number > 30 && number <= 60) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UME") {
+      if (number >= 61 && number <= 90) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UCE") {
+      if (number >= 91 && number <= 120) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else {
+      document.getElementById("errormsg").innerHTML="Incorrect branch.";
+      return false; 
+    }
+  }
+  else if (year == "2018") {
+    if (branch == "UCS") {
+      if (number >= 1 && number <= 30) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UEE") {
+      if (number > 30 && number <= 60) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UME") {
+      if (number >= 61 && number <= 90) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UCE") {
+      if (number >= 91 && number <= 120) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else if (branch == "UCH") {
+      if (number >= 121 && number <= 150) {
+        ;
+      }
+      else {
+        document.getElementById("errormsg").innerHTML="Incorrect entry no.";
+        return false; 
+      }
+    }
+    else {
+      document.getElementById("errormsg").innerHTML="Incorrect branch.";
+      return false; 
+    }
+  }
+  // if (rn.length != 3) {
+  //   document.getElementById("errormsg").innerHTML="Incorrect Rollno. Please enter in the format (BE/10XXX/YY)";
+  //   return false;
+  // }
+  // if((rn[0].length != 2 && rn[0].length != 3) || (rn[0].match(/[A-Z]/g)).length != rn[0].length){
+  //   document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[0]+". Make sure all letters are capital (Ex. 'BE' in BE/10XXX/YY)";
+  //   return false;
+  // }
+  // if(rn[1].length != 5 || (rn[1].match(/[0-9]/g)).length != rn[1].length){
+  //   document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[1];
+  //   return false;
+  // }
+  // if(rn[2] != "12" && rn[2] != "13" && rn[2] != "14" && rn[2] != "15" && rn[2] != "16"){
+  //   document.getElementById("errormsg").innerHTML="Incorrect Rollno "+rn[2];
+  //   return false;
+  // }
   var g = document.forms["form"]["gender"].value;
   if (g=="") {
     document.getElementById("errormsg").innerHTML="Please select your gender";
@@ -177,7 +320,7 @@ if (@$_GET['q7']) {
 <div class="form-group">
   <label class="col-md-12 control-label" for="rollno"></label>  
   <div class="col-md-12">
-  <input id="rollno" name="rollno" placeholder="Enter your Roll no (Ex. BE/10XXX/YY)" class="form-control input-md" type="text" value="<?php
+  <input id="rollno" name="rollno" placeholder="Enter your Roll no (Ex. 20YYUBBNNNN)" class="form-control input-md" type="text" value="<?php
 // echo $_GET['rollno'];
 ?>">
     
